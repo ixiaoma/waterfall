@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			*{
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+			#box{
+				position: relative;
+			}
+			li{
+				position: absolute;
+				width: 200px;
+				margin-bottom: 20px;
+				margin-right: 20px;
+				list-style: none;
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<ul id="box"></ul>
+		<script>
+			var oUl = document.getElementById("box");
+			var arr = [];
+			var num = 0;
+			//设置每个li的高度
+			function randomHeight(){
+				return Math.floor(Math.random()*300)+100;
+			}
+			//设置随机颜色
+			function randomColor(){
+				return (Math.round(Math.random()* 0xffffff)).toString(16);
+			}
+			//确定有多少列
+			function getCols(ele){
+				var winWidth = document.body.clientWidth;
+				var cols = Math.floor(winWidth/200);
+				for(var i = 0;i<cols;i++){
+					arr[i] = 0;		//初始化每列的值
+				}
+			}
+			function setCols(ele){
+				var minH = arr[0];		
+				var minIndex = 0;		//定义下标
+				for(var i = 0 ;i<arr.length;i++){
+					if(minH>arr[i]){
+						minH = arr[i];
+						minIndex = i;
+					}
+				}
+				ele.style.top = arr[minIndex] + "px";  
+		        ele.style.left = minIndex * (200 + 10) + "px"; 
+		        arr[minIndex] += ele.offsetHeight + 10;  
+		        console.log(arr);
+			}
+			//创建li
+			function insertLi(){
+				var li = document.createElement("li");
+				var liColor = "#"+randomColor();
+				var liHeight = randomHeight();
+				li.innerHTML = num;
+				li.style.background = liColor;
+				li.style.height = liHeight +"px";
+				oUl.appendChild(li);
+				setCols(li);
+			}
+			getCols();
+			start();
+			function start(){
+				for(var i = 0; i<30;i++){
+					num++;
+					insertLi();
+				}
+			}
+			  //当window窗口发生改变时,触发事件，改变列数;  
+		  window.onresize = function () {  
+		        getCols();  //重新计算列数 
+				var lis = document.getElementsByTagName("li"); //获取已经加载出来的li元素
+		        for (var i = 0; i < lis.length; i++) {   
+		            setCols(lis[i]);
+		        }  
+		    } 
+		</script>
+	</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>  
+     
+        *{  
+            margin: 0px;  
+            padding: 0px;  
+            box-sizing:border-box;  
+        }  
+        ul{  
+            position: relative;  
+            margin: 0px auto;  
+            list-style: none;  
+        }  
+        li{  
+            position: absolute;  
+            width: 200px;  
+            padding: 3px;  
+            margin-bottom: 3px;  
+           /* border-radius: 5px;*/  
+            /*transition: all 0.5s; */ 
+           /* box-shadow: 10px 10px 10px #666;  */
+        }  
+    </style>  
+	</head>
+	<body>
+		 <ul id="wrap"></ul>  
+		<script type="text/javascript">  
+			var wrap = document.getElementById("wrap");
+		    //随机高度  
+		    function rand() {  
+		        return parseInt(Math.random() * 300) + 100;  
+		    }  
+		    //颜色随机  
+		    function randomColor(){  
+		        var color = "rgb("  
+		        var r = parseInt(Math.random()*256);  
+		        var g = parseInt(Math.random()*256);  
+		        var b = parseInt(Math.random()*256);  
+		        color = color+r+","+g+","+b+")";  
+		        return color;     
+		    }  
+		    var num = 0;  
+		    //定义一个数组  
+		    var colsArr =[];  
+		    //确定列数（有多少列）
+		    function getCols() {  
+		        var winWidth = document.body.clientWidth;      
+		        //得到总列数,因为设pading值，所以不能/200  
+		        var cols =Math.floor(winWidth / 206);  
+		        for (var i = 0; i < cols; i++) {  
+		            colsArr[i] = 0;  
+		        }  
+		    }  
+		    //给每一个li找坐标
+		    function setPos(ele) {  
+		        var minH = colsArr[0];  
+		        var minIndex = 0;  
+		        for (var i = 0; i < colsArr.length; i++) {  
+		            if (minH > colsArr[i]) {  
+		                minH = colsArr[i];  
+		                minIndex = i;  
+		            }  
+		        }  
+		        ele.style.top = colsArr[minIndex] + "px";  
+		        ele.style.left = minIndex * (200 + 10) + "px";  
+		        colsArr[minIndex] = ele.offsetHeight + 10;  
+		        console.log(colsArr);
+		    }  
+		    //创建LI方法  
+		    //创建新元素。
+		    function insertLi() {  
+		        var li = document.createElement("li");  
+		        var liHeight = rand();  
+		        li.style.background=randomColor();  
+		        li.innerHTML = num;  
+		        li.style.height = liHeight + "px";  
+		        wrap.appendChild(li);  
+		        setPos(li);  
+		    }  
+		    getCols();  
+		    start();  
+		    //初始化函数（创建30li元素
+		    function start() {  
+		        for (var i = 0; i < 30; i++) {  
+		            num++;  //每创建一个，num + 1
+		            insertLi(); //创建li  
+		        }  
+		    }  
+		    //当window窗口发生改变时,触发事件，改变列数;  
+		  window.onresize = function () {  
+		        getCols();  //重新计算列数 
+				var lis = document.getElementsByTagName("li"); //获取已经加载出来的li元素
+		        for (var i = 0; i < lis.length; i++) {  
+		            var li = lis[i];  
+		            setPos(li)  
+		        }  
+		    }  
+//		   触发滚动事件，继续创建  
+//		    window.onscroll=function(){  
+//		        // html总高度-可视化窗口高度=body的滚动高度,所以当滚动快要到达底部,还没有到达的时候,再去执行函数,创建新的ul  
+//		        //兼容新写法  
+//		        var scrollTop=document.documentElement.scrollTop||document.body.scrollTop;  
+//		        var clientHeight=document.documentElement.clientHeight||document.body.clientHeight||window.innerHeight;  
+//		        if(document.documentElement.offsetHeight-clientHeight<=scrollTop){  
+//		            start();  
+//		        }  
+//		    }  
+		</script>
+	</body>
+</html>

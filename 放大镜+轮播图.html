@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			ul,li{
+				list-style: none;
+			}
+			#slideShow{
+				width: 300px;
+				height: 400px;
+				border: 3px solid slateblue;
+				float: left;
+				position: relative;
+				margin:0 100px;
+				overflow: hidden;
+			}
+			#slideShow li:first-child{
+				z-index: 1;
+			}
+			#left,#right{
+				position: absolute;
+				width: 150px;
+				height: 300px;
+				background: red;
+				opacity: 0;
+				z-index: 1000;
+			}
+			#right{
+				left: 150px;
+			}
+			#slideShow a{
+				width: 60px;
+				height: 60px;
+				display: block;
+				opacity: 0;
+				transition: 3;
+			}
+			#lbtn{
+				position: absolute;
+				left: 0;
+				top: 150px;
+				z-index: 1000;
+				background: url(images/btn.gif) no-repeat;
+			}
+			#rbtn{
+				position: absolute;
+				right: 0;
+				top: 150px;
+				z-index: 1000;
+				background: url(images/btn.gif)  no-repeat 0 -60px;
+			}
+			#topImg{
+				width: 300px;
+				height: 300px;
+			}
+			#topImg li{
+				width: 300px;
+				height: 300px;
+				position: absolute;
+			}
+			#topImg img{
+				width: 100%;
+				height:100%;
+			}
+			#btmImg{
+				position: absolute;
+			}
+			#btmImg li{
+				width: 100px;
+				height: 100px;
+				float: left;
+			}
+			#btmImg li img{
+				width: 100%;
+				height: 100%;
+			} 
+			#magnifyingLen{
+				width: 300px;
+				height: 400px;
+				border: 3px solid salmon;
+				float: left;
+				position: relative;
+				overflow: hidden;
+			}
+			
+			#bigImg li{
+				width: 600px;
+				height: 800px;
+				position: absolute;
+			}
+			#bigImg img{
+				width: 100%;
+				height: 100%;
+			}
+			#sp{
+				width: 50px;
+				height: 50px;
+				position: absolute;
+				background: darkgoldenrod;
+				opacity: 0.5;
+				z-index: 1000;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="slideShow">
+			<div id="left"></div>
+			<div id="right"></div>
+			<a href="javascript:;" id="lbtn"></a>
+			<a href="javascript:;" id="rbtn"></a>
+			<ul id="topImg">
+				<li><img src="images/59265503N9e4d90e2.jpg"/></li>
+				<li><img src="images/592657b0Nf1a9912b.jpg"/></li>
+				<li><img src="images/5983f04aN48f6e6d1(2).jpg"/></li>
+				<li><img src="images/59265503N9e4d90e2.jpg"/></li>
+				<li><img src="images/592657b0Nf1a9912b.jpg"/></li>
+				<li><img src="images/5983f04aN48f6e6d1(2).jpg"/></li>
+			</ul>
+			<ul id="btmImg">
+				<li><img src="images/59265503N9e4d90e2(2).jpg"/></li>
+				<li><img src="images/592657b0Nf1a9912b(2).jpg"/></li>
+				<li><img src="images/5983f04aN48f6e6d1(3).jpg"/></li>
+				<li><img src="images/59265503N9e4d90e2(2).jpg"/></li>
+				<li><img src="images/592657b0Nf1a9912b(2).jpg"/></li>
+				<li><img src="images/5983f04aN48f6e6d1(3).jpg"/></li>
+			</ul>
+		</div>
+		<div id="magnifyingLen">
+			<ul id="bigImg">
+				<li><img src="images/59265503N9e4d90e2.jpg"/></li>
+				<li><img src="images/592657b0Nf1a9912b.jpg"/></li>
+				<li><img src="images/5983f04aN48f6e6d1(2).jpg"/></li>
+				<li><img src="images/59265503N9e4d90e2.jpg"/></li>
+				<li><img src="images/592657b0Nf1a9912b.jpg"/></li>
+				<li><img src="images/5983f04aN48f6e6d1(2).jpg"/></li>
+			</ul>
+		</div>
+	</body>
+	<script src="sport.js"></script>
+	<script type="text/javascript">
+		var topImg = document.getElementById("topImg").getElementsByTagName("li");
+		var btm = document.getElementById("btmImg");
+		var btmImg = btm.getElementsByTagName("li");
+		btm.style.width = btmImg.length*btmImg[0].offsetWidth;
+		var oLeft = document.getElementById("left");
+		var oRight =document.getElementById("right");
+		var lBtn = document.getElementById("lbtn");
+		var rBtn = document.getElementById("rbtn");
+		var lenImg = document.getElementById("magnifyingLen").getElementsByTagName("li");
+		oLeft.onmouseover = lBtn.onmouseover = function(){
+			sport(lBtn,{opacity:100});
+		}
+		oLeft.onmouseout = lBtn.onmouseout = function(){
+			sport(lBtn,{opacity:0});
+		}
+		oRight.onmouseover = rBtn.onmouseover = function(){
+			sport(rBtn,{opacity:100});
+		}
+		oRight.onmouseout = rBtn.onmouseout = function(){
+			sport(rBtn,{opacity:0});
+		}
+		var nowPic = 0;
+		var zIndex = 1;
+		init();
+		lBtn.onclick = function(){
+			nowPic--;
+			if(nowPic < 0){
+				nowPic = topImg.length-1;
+			}
+			init();
+		}
+		rBtn.onclick = function(){
+			nowPic++;
+			if(nowPic > topImg.length-1){
+				nowPic = 0;
+			}
+			init();
+		}
+		for(var i=0;i<btmImg.length;i++){
+			btmImg[i].index=i;
+			btmImg[i].onmouseover = function(){
+				sport(this,{opacity:100});
+			}
+			btmImg[i].onmouseout = function(){
+				if(this.index != nowPic){
+					sport(this,{opacity:50});
+				}
+			}
+			btmImg[i].onclick = function(){
+				nowPic = this.index;
+				init();
+			}
+		}
+		function init(){
+			topImg[nowPic].style.zIndex = ++zIndex;
+			lenImg[nowPic].style.zIndex = ++zIndex;
+			if(nowPic ==0){
+				sport(btm,{left:0});
+			}else if(nowPic == btmImg.length-1){
+				sport(btm,{left:-(btmImg.length-3)*btmImg[0].offsetWidth});
+			}else{
+				sport(btm,{left:-(nowPic-1)*btmImg[0].offsetWidth});
+			}
+			for(var i=0;i<btmImg.length;i++){
+				sport(btmImg[i],{opacity:50});
+			}
+			sport(btmImg[nowPic],{opacity:100});
+		}
+	</script>
+</html>

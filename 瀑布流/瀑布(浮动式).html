@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>瀑布</title>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			li {
+				list-style: none;
+			}
+			#box {
+				margin: 0 auto;
+				width: 700px;
+			}
+			ul {
+				width: 200px;
+				float: left;
+				margin: 0 auto;
+				margin-right: 10px;
+			}
+			img {
+				width: 200px;
+				padding-top: 10px;
+			}
+		</style>
+		<script>
+			window.onload = function() {
+				//获取元素
+				let oDiv = document.getElementById("box");
+				let oUl = oDiv.getElementsByTagName("ul");
+				//求出最小高度的列的下标
+				function minHeight(ul){
+					var min = ul[0].offsetHeight;//第一个ul的高度
+					let index = 0;
+					for(var i=0;i<ul.length;i++){
+						if(ul[i].offsetHeight<min){
+							min=ul[i].offsetHeight;
+							index = i;
+						}
+					}
+					return index;
+				}
+				//加载图片
+				function loading(){
+					for(var i = 1;i<57;i++){
+						let oLi = document.createElement("li");
+						let oImg = document.createElement("img");
+						oImg.src = "images/"+i+".jpg";
+						oLi.appendChild(oImg);
+						oUl[minHeight(oUl)].appendChild(oLi);
+					}
+				}
+				loading();
+				var clientHeight = document.documentElement.clientHeight;
+				window.onscroll = function(){
+					var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+					if(clientHeight + screenTop >= document.body.scrollTop){
+						loading();
+					}
+				}
+			};
+		</script>
+	</head>
+
+	<body>
+		<div id="box">
+			<ul></ul>
+			<ul></ul>
+			<ul></ul>
+
+		</div>
+	</body>
+
+</html>
